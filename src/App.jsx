@@ -93,7 +93,7 @@ function App() {
   };
 
   return (
-    <Container style={{ textAlign: "center" }}>
+    <Container style={{ textAlign: "center" }} maxWidth="md">
       <Typography variant="h4" style={{ margin: 18, fontFamily: "Montserrat" }}>
         Admin Panel
       </Typography>
