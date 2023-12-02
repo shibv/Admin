@@ -89,7 +89,7 @@ function App() {
   }, []);
 
   const handleSearch = () => {
-    return content.filter((cont) => cont.name.toLowerCase().includes(search));
+    return content.filter((cont) => cont.name.toLowerCase().includes(search.toLowerCase()));
   };
 
   return (
