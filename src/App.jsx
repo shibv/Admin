@@ -5,7 +5,6 @@ import { Button, Container, Typography } from "@mui/material";
 
 import Stack from "@mui/material/Stack";
 
-
 import {
   LinearProgress,
   TableContainer,
@@ -22,7 +21,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 const label = { inputProps: { "aria-label": "controlled" } };
-
 
 function App() {
   // hooks
@@ -90,174 +88,169 @@ function App() {
     fetchData();
   }, []);
 
-
-
   const handleSearch = () => {
     return content.filter((cont) => cont.name.toLowerCase().includes(search));
   };
 
-  
   return (
-    
-      <Container style={{ textAlign: "center" }}>
-        <Typography
-          variant="h4"
-          style={{ margin: 18, fontFamily: "Montserrat" }}
+    <Container style={{ textAlign: "center" }}>
+      <Typography variant="h4" style={{ margin: 18, fontFamily: "Montserrat" }}>
+        Admin Panel
+      </Typography>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+      >
+        <TextField
+          label="serach admin name"
+          variant="outlined"
+          style={{ marginBottom: 20, width: "100%", color: "white" }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        ></TextField>
+
+        <Button
+          variant="contained"
+          onClick={handle_checked_elements}
+          style={{ height: "60px", marginBottom: "17px" }}
         >
-          Admin Panel
-        </Typography>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          spacing={2}
-        >
-          <TextField
-            label="serach admin name"
-            variant="outlined"
-            style={{ marginBottom: 20, width: "100%", color: "white" }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          ></TextField>
-         
-            
-            <Button variant="contained" onClick={handle_checked_elements} style={{height:"60px", marginBottom:"17px"}}> <DeleteIcon fontSize="inherit"  /></Button>
-       
-        </Stack>
+          {" "}
+          <DeleteIcon fontSize="inherit" />
+        </Button>
+      </Stack>
 
-        <TableContainer>
-          {loading ? (
-            <LinearProgress style={{ backgroundColor: "aqua" }} />
-          ) : (
-            <Table>
-              <TableHead style={{ backgroundColor: "aqua" }}>
-                <TableRow>
-                  {["", "Name", "Email", "Role", "Action"].map((head) => (
-                    <TableCell
-                      style={{
-                        color: "black",
-                        fontWeight: "700",
-                        fontFamily: "Montserrat",
-                      }}
-                      key={head}
-                    >
-                      {head}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {handleSearch()
-                  .slice((page - 1) * 10, (page - 1) * 10 + 10)
-                  .map((row) => {
-                   
-                    return editId === row.id ? (
-                      <TableRow  key={row.name}>
-                        <TableCell>
-                          <Checkbox
-                            key={row.id}
-                            {...label}
-                            checked={checked}
-                            onChange={() => handleChange(row.id)}
-                          />
-                        </TableCell>
+      <TableContainer>
+        {loading ? (
+          <LinearProgress style={{ backgroundColor: "aqua" }} />
+        ) : (
+          <Table>
+            <TableHead style={{ backgroundColor: "aqua" }}>
+              <TableRow>
+                {["", "Name", "Email", "Role", "Action"].map((head) => (
+                  <TableCell
+                    style={{
+                      color: "black",
+                      fontWeight: "700",
+                      fontFamily: "Montserrat",
+                    }}
+                    key={head}
+                  >
+                    {head}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {handleSearch()
+                .slice((page - 1) * 10, (page - 1) * 10 + 10)
+                .map((row) => {
+                  return editId === row.id ? (
+                    <TableRow key={row.name}>
+                      <TableCell>
+                        <Checkbox
+                          key={row.id}
+                          {...label}
+                          checked={checked}
+                          onChange={() => handleChange(row.id)}
+                        />
+                      </TableCell>
 
-                        <TableCell>
-                          <TextField
-                            type="text"
-                            label="Enter Name"
-                            variant="outlined"
-                            value={editedname}
-                            onChange={(e) => {
-                              setEditedName(e.target.value);
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <TextField
-                            type="text"
-                            label="Enter Email"
-                            variant="outlined"
-                            value={editedemail}
-                            onChange={(e) => {
-                              setEditedEmail(e.target.value);
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <TextField
-                            type="text"
-                            label="Enter Role"
-                            variant="outlined"
-                            value={editedrole}
-                            onChange={(e) => {
-                              setEditedRole(e.target.value);
-                            }}
-                          />
-                        </TableCell>
+                      <TableCell>
+                        <TextField
+                          type="text"
+                          label="Enter Name"
+                          variant="outlined"
+                          value={editedname}
+                          onChange={(e) => {
+                            setEditedName(e.target.value);
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          type="text"
+                          label="Enter Email"
+                          variant="outlined"
+                          value={editedemail}
+                          onChange={(e) => {
+                            setEditedEmail(e.target.value);
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          type="text"
+                          label="Enter Role"
+                          variant="outlined"
+                          value={editedrole}
+                          onChange={(e) => {
+                            setEditedRole(e.target.value);
+                          }}
+                        />
+                      </TableCell>
 
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            onClick={() => handleSave(row.id)}
-                          >
-                            Save
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <TableRow  key={row.name}>
-                        <TableCell>
-                          <Checkbox
-                            key={row.id}
-                            {...label}
-                            onChange={() => {
-                              handleToggleChange(row.id);
-                            }}
-                          />
-                        </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="contained"
+                          onClick={() => handleSave(row.id)}
+                        >
+                          Save
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    <TableRow key={row.name}>
+                      <TableCell>
+                        <Checkbox
+                          key={row.id}
+                          {...label}
+                          onChange={() => {
+                            handleToggleChange(row.id);
+                          }}
+                        />
+                      </TableCell>
 
-                        <TableCell>{row.name}</TableCell>
-                        <TableCell>{row.email}</TableCell>
-                        <TableCell>{row.role}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.email}</TableCell>
+                      <TableCell>{row.role}</TableCell>
 
-                        <TableCell>
-                          <DeleteIcon
-                            onClick={() => {
-                              removeItem(row.id);
-                            }}
-                          />
-                          <EditIcon
-                            onClick={() => {
-                              edit(row.id, row.name, row.email, row.role);
-                            }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          )}
-        </TableContainer>
+                      <TableCell>
+                        <DeleteIcon
+                          onClick={() => {
+                            removeItem(row.id);
+                          }}
+                        />
+                        <EditIcon
+                          onClick={() => {
+                            edit(row.id, row.name, row.email, row.role);
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        )}
+      </TableContainer>
 
-        <Pagination
-          count={(handleSearch()?.length / 10).toFixed(0)}
-          style={{
-            padding: 20,
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            color: "black",
-          }}
-         
-          onChange={(_, value) => {
-            setPage(value);
-            window.scroll(0, 450);
-          }}
-        ></Pagination>
-      </Container>
-
+      <Pagination
+        count={(handleSearch()?.length / 10).toFixed(0)}
+        style={{
+          padding: 20,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          color: "black",
+        }}
+        onChange={(_, value) => {
+          setPage(value);
+          window.scroll(0, 450);
+        }}
+      ></Pagination>
+    </Container>
   );
 }
 
