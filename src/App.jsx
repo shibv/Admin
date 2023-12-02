@@ -216,17 +216,24 @@ function App() {
                       <TableCell>{row.email}</TableCell>
                       <TableCell>{row.role}</TableCell>
 
-                      <TableCell>
+                      <TableCell >
+                       
                         <DeleteIcon
                           onClick={() => {
                             removeItem(row.id);
                           }}
+                          style={{cursor:"pointer", padding:"4px 4px"}}
                         />
+                      
+                        
                         <EditIcon
                           onClick={() => {
                             edit(row.id, row.name, row.email, row.role);
                           }}
+                          style={{cursor:"pointer", padding:"4px 4px"}}
                         />
+                        
+                        
                       </TableCell>
                     </TableRow>
                   );
