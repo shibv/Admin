@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
 import { Button, Container, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+
 import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
+
 
 import {
   LinearProgress,
@@ -23,21 +23,8 @@ import EditIcon from "@mui/icons-material/Edit";
 
 const label = { inputProps: { "aria-label": "controlled" } };
 
-const useStyles = makeStyles(() => ({
-  row: {
-    backgroundColor: "white",
-    color: "black",
-    cursor: "pointer",
-    fontFamily: "Montserrat",
-  },
-  pagination: {
-    "& .MuiPaginationItem-root": {
-      color: "black",
-    },
-  },
-}));
 
-function App(props) {
+function App() {
   // hooks
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState([]);
@@ -109,7 +96,7 @@ function App(props) {
     return content.filter((cont) => cont.name.toLowerCase().includes(search));
   };
 
-  const classes = useStyles(props);
+  
   return (
     
       <Container style={{ textAlign: "center" }}>
@@ -132,10 +119,10 @@ function App(props) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           ></TextField>
-          <IconButton aria-label="delete" size="large" backgroundColor="red">
+         
             
-            <Button variant="contained" style={{height:"60px", marginBottom:"17px"}}> <DeleteIcon fontSize="inherit" onClick={handle_checked_elements} /></Button>
-          </IconButton>
+            <Button variant="contained" onClick={handle_checked_elements} style={{height:"60px", marginBottom:"17px"}}> <DeleteIcon fontSize="inherit"  /></Button>
+       
         </Stack>
 
         <TableContainer>
@@ -163,9 +150,9 @@ function App(props) {
                 {handleSearch()
                   .slice((page - 1) * 10, (page - 1) * 10 + 10)
                   .map((row) => {
-                    const profit = row.price_change_percentage_24h > 0;
+                   
                     return editId === row.id ? (
-                      <TableRow className={classes.row} key={row.name}>
+                      <TableRow  key={row.name}>
                         <TableCell>
                           <Checkbox
                             key={row.id}
@@ -219,7 +206,7 @@ function App(props) {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      <TableRow className={classes.row} key={row.name}>
+                      <TableRow  key={row.name}>
                         <TableCell>
                           <Checkbox
                             key={row.id}
@@ -263,7 +250,7 @@ function App(props) {
             justifyContent: "center",
             color: "black",
           }}
-          classes={{ ul: classes.pagination }}
+         
           onChange={(_, value) => {
             setPage(value);
             window.scroll(0, 450);
