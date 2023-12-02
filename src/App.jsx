@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { ThemeProvider } from "@mui/styles";
 import { Button, Container, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Stack from "@mui/material/Stack";
@@ -13,8 +12,6 @@ import {
   TableHead,
   Table,
   TextField,
-  colors,
-  createTheme,
   TableRow,
   TableCell,
   TableBody,
@@ -23,7 +20,6 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { EditRoad, EditRounded } from "@mui/icons-material";
 
 const label = { inputProps: { "aria-label": "controlled" } };
 
@@ -33,9 +29,6 @@ const useStyles = makeStyles(() => ({
     color: "black",
     cursor: "pointer",
     fontFamily: "Montserrat",
-    // "&:hover": {
-    //   backgroundColor: "#131111",
-    // },
   },
   pagination: {
     "& .MuiPaginationItem-root": {
@@ -51,17 +44,21 @@ function App(props) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [checked, setChecked] = useState(false);
-  const [deleteselectedelements, setDeleteSelectedElements] = useState([]);
-  //Track is edit clicked or not
+  //Hooks to edit the row data
   const [editId, setEdit] = useState(0);
   const [editedname, setEditedName] = useState("");
   const [editedemail, setEditedEmail] = useState("");
   const [editedrole, setEditedRole] = useState("");
+  // delete checked data
+  const [checkedelements, setCheckedElements] = useState([]);
 
-  const handleChange = ({ e, id }) => {
-    setDeleteSelectedElements([...deleteselectedelements, id]);
-    setChecked(true);
-    console.log(deleteselectedelements);
+  const handleToggleChange = (id) => {
+    setCheckedElements(checkedelements.filter((it) => it.id !== id));
+  };
+
+  const handle_checked_elements = () => {
+    console.log(checkedelements);
+    setContent(checkedelements);
   };
 
   const edit = (id, name, email, role) => {
@@ -95,6 +92,7 @@ function App(props) {
       );
       //console.log(data);
       setContent(data);
+      setCheckedElements(data);
       setLoading(false);
     } catch (error) {
       console.error("Axios Error:", error);
@@ -105,26 +103,15 @@ function App(props) {
     fetchData();
   }, []);
 
-  // dark theme
-  const darkTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#CDCDCD",
-      },
-      type: "#CDCDCD",
-    },
-  });
+
 
   const handleSearch = () => {
-    console.log(
-      content.filter((cont) => cont.name.toLowerCase().includes(search))
-    );
     return content.filter((cont) => cont.name.toLowerCase().includes(search));
   };
 
   const classes = useStyles(props);
   return (
-    <ThemeProvider>
+    
       <Container style={{ textAlign: "center" }}>
         <Typography
           variant="h4"
@@ -146,7 +133,8 @@ function App(props) {
             onChange={(e) => setSearch(e.target.value)}
           ></TextField>
           <IconButton aria-label="delete" size="large" backgroundColor="red">
-            <DeleteIcon fontSize="inherit" />
+            
+            <Button variant="contained" style={{height:"60px", marginBottom:"17px"}}> <DeleteIcon fontSize="inherit" onClick={handle_checked_elements} /></Button>
           </IconButton>
         </Stack>
 
@@ -236,8 +224,9 @@ function App(props) {
                           <Checkbox
                             key={row.id}
                             {...label}
-                            checked={checked}
-                            onChange={() => handleChange(row.id)}
+                            onChange={() => {
+                              handleToggleChange(row.id);
+                            }}
                           />
                         </TableCell>
 
@@ -281,7 +270,7 @@ function App(props) {
           }}
         ></Pagination>
       </Container>
-    </ThemeProvider>
+
   );
 }
 
